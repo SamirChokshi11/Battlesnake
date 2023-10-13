@@ -7,6 +7,8 @@ export default function move(gameState){
     };
     
     // We've included code to prevent your Battlesnake from moving backwards
+    const height=gameState.board.height
+    const width=gameState.board.width
     const myHead = gameState.you.body[0];
     const myNeck = gameState.you.body[1];
     
@@ -26,7 +28,19 @@ export default function move(gameState){
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
-    
+
+    if(myHead.y==height-1){
+        moveSafety.up=false
+    }
+    if(myHead.y==0){
+        moveSafety.down=false
+    }
+    if(myHead.x==0){
+        moveSafety.left=false
+    }
+    if(myHead.x==width-1){
+        moveSafety.right=false
+    }
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
@@ -53,8 +67,6 @@ export default function move(gameState){
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
     
-    let moves=["up","down","left","right"]
-    console.log(nextMove)
     console.log(`MOVE ${gameState.turn}: ${nextMove}`)
-    return { move: moves[Math.floor(Math.random()*4)] };
+    return { move: nextMove};
 }
