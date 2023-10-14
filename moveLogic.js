@@ -12,18 +12,18 @@ export default function move(gameState){
     const myHead = gameState.you.body[0];
     const myNeck = gameState.you.body[1];
     
-    if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
-        moveSafety.left = false;
+    // if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
+    //     moveSafety.left = false;
         
-    } else if (myNeck.x > myHead.x) { // Neck is right of head, don't move right
-        moveSafety.right = false;
+    // } else if (myNeck.x > myHead.x) { // Neck is right of head, don't move right
+    //     moveSafety.right = false;
         
-    } else if (myNeck.y < myHead.y) { // Neck is below head, don't move down
-        moveSafety.down = false;
+    // } else if (myNeck.y < myHead.y) { // Neck is below head, don't move down
+    //     moveSafety.down = false;
         
-    } else if (myNeck.y > myHead.y) { // Neck is above head, don't move up
-        moveSafety.up = false;
-    }
+    // } else if (myNeck.y > myHead.y) { // Neck is above head, don't move up
+    //     moveSafety.up = false;
+    // }
     
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
@@ -104,41 +104,45 @@ export default function move(gameState){
         }
     }
 
-    if(Math.abs(myHead.x-gameState.board.food[smallestDistance.index].x)<=Math.abs(myHead.y-gameState.board.food[smallestDistance.index].y)){
-        if(myHead.x>gameState.board.food[smallestDistance.index].x){
-            if(moveSafety.left==true){nextMove="left"}
-            }
-        if(myHead.x<gameState.board.food[smallestDistance.index].x){
-            if(moveSafety.right==true){nextMove="right"}
-        }
-            }
+    // if(Math.abs(myHead.x-gameState.board.food[smallestDistance.index].x)<=Math.abs(myHead.y-gameState.board.food[smallestDistance.index].y)){
+    //     if(myHead.x>gameState.board.food[smallestDistance.index].x){
+    //         if(moveSafety.left==true){nextMove="left"}
+    //         }
+    //     if(myHead.x<gameState.board.food[smallestDistance.index].x){
+    //         if(moveSafety.right==true){nextMove="right"}
+    //     }
+    //         }
 
-    if(Math.abs(myHead.x - gameState.board.food[smallestDistance.index].x)>=Math.abs(myHead.y - gameState.board.food[smallestDistance.index].y)){
-        if(myHead.y>gameState.board.food[smallestDistance.index].y){
-            if(moveSafety.down==true){nextMove="down"}
-        }
-        if(myHead.y>gameState.board.food[smallestDistance.index].y){
-            if(moveSafety.up==true){nextMove="up"}
-        }
-    }
+    // if(Math.abs(myHead.x - gameState.board.food[smallestDistance.index].x)>=Math.abs(myHead.y - gameState.board.food[smallestDistance.index].y)){
+    //     if(myHead.y>gameState.board.food[smallestDistance.index].y){
+    //         if(moveSafety.down==true){nextMove="down"}
+    //     }
+    //     if(myHead.y>gameState.board.food[smallestDistance.index].y){
+    //         if(moveSafety.up==true){nextMove="up"}
+    //     }
+    // }
     
     let targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
 
     const deltaX = targetPoint.x - myHead.x;
     const deltaY = targetPoint.y - myHead.y;
   
-    // Determine the next move based on the difference
-    if (deltaX > 0) {
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0) {
         if(moveSafety.right==true){nextMove= 'right'}
-    } else if (deltaX < 0) {
-        if(moveSafety.left==true){nextMove= 'left'}
-    } else if (deltaY > 0) {
+      } else if (deltaX < 0) {
+        if(moveSafety.left==true){ nextMove= 'left'}
+      }
+    } else {
+      if (deltaY > 0) {
         if(moveSafety.down==true){nextMove= 'down'}
-    } else if (deltaY < 0) {
+      } else if (deltaY < 0) {
         if(moveSafety.up==true){nextMove= 'up'}
+      }
     }
 
-if(gameState.you.health<90){
+
+if(gameState.you.health<100){
     for (let i = 0; i < gameState.board.food.length; i++) {
         if(gameState.board.food[i].x==myHead.x+1){
             if(moveSafety.right==true&&gameState.board.food[i].y==myHead.y){nextMove='right'}
