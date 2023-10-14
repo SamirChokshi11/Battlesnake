@@ -123,7 +123,7 @@ export default function move(gameState){
       }
     }
 
-if(gameState.you.health<100){
+if(gameState.you.health<90){
     for (let i = 0; i < gameState.board.food.length; i++) {
         if(gameState.board.food[i].x==myHead.x+1){
             if(moveSafety.right==true&&gameState.board.food[i].y==myHead.y){nextMove='right'}
@@ -155,5 +155,4 @@ if(gameState.you.health<100){
     // if(gameState.turn%4==3){
     //     return {move:"left"}
     // }
-
 }
