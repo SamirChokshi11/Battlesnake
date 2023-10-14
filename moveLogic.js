@@ -103,29 +103,11 @@ export default function move(gameState){
             smallestDistance.index=i
         }
     }
-
-    // if(Math.abs(myHead.x-gameState.board.food[smallestDistance.index].x)<=Math.abs(myHead.y-gameState.board.food[smallestDistance.index].y)){
-    //     if(myHead.x>gameState.board.food[smallestDistance.index].x){
-    //         if(moveSafety.left==true){nextMove="left"}
-    //         }
-    //     if(myHead.x<gameState.board.food[smallestDistance.index].x){
-    //         if(moveSafety.right==true){nextMove="right"}
-    //     }
-    //         }
-
-    // if(Math.abs(myHead.x - gameState.board.food[smallestDistance.index].x)>=Math.abs(myHead.y - gameState.board.food[smallestDistance.index].y)){
-    //     if(myHead.y>gameState.board.food[smallestDistance.index].y){
-    //         if(moveSafety.down==true){nextMove="down"}
-    //     }
-    //     if(myHead.y>gameState.board.food[smallestDistance.index].y){
-    //         if(moveSafety.up==true){nextMove="up"}
-    //     }
-    // }
     
     let targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
 
-    const deltaX = targetPoint.x - myHead.x;
-    const deltaY = targetPoint.y - myHead.y;
+    const deltaX = targetPoint.x - myHead.x
+    const deltaY = targetPoint.y - myHead.y
   
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
@@ -140,7 +122,6 @@ export default function move(gameState){
         if(moveSafety.up==true){nextMove= 'up'}
       }
     }
-
 
 if(gameState.you.health<100){
     for (let i = 0; i < gameState.board.food.length; i++) {
