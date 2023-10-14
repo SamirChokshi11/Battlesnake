@@ -80,17 +80,6 @@ export default function move(gameState){
     }
    }
 
-   if(myHead.x+1==width-1&&myHead.y==height){
-    moveSafety.right=false
-   }
-   for (let i = 0; i < gameState.you.body.length; i++) {
-    if(gameState.you.body[i].y==myHead.y+2){
-        moveSafety.up=false
-    }
-    if(gameState.you.body[i].y==myHead.y-2){
-        moveSafety.down=false
-    }
-   }
     // Are there any safe moves left?
     
     //Object.keys(moveSafety) returns ["up", "down", "left", "right"]
@@ -133,22 +122,21 @@ export default function move(gameState){
         }
     }
     
-    targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
+    let targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
 
-    const deltaX = targetPoint.x - headX;
-    const deltaY = targetPoint.y - headY;
+    const deltaX = targetPoint.x - myHead.x;
+    const deltaY = targetPoint.y - myHead.y;
   
     // Determine the next move based on the difference
     if (deltaX > 0) {
         if(moveSafety.right==true){nextMove= 'right'}
     } else if (deltaX < 0) {
-        if(moveSafety.right==true){nextMove= 'left'}
+        if(moveSafety.left==true){nextMove= 'left'}
     } else if (deltaY > 0) {
-        if(moveSafety.right==true){nextMove= 'down'}
+        if(moveSafety.down==true){nextMove= 'down'}
     } else if (deltaY < 0) {
-        if(moveSafety.right==true){nextMove= 'up'}
+        if(moveSafety.up==true){nextMove= 'up'}
     }
-
 
 if(gameState.you.health<90){
     for (let i = 0; i < gameState.board.food.length; i++) {
