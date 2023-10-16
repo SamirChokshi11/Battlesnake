@@ -89,7 +89,7 @@ export default function move(gameState){
     if (safeMoves.length == 0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected!`);
     }
-    
+
     // Choose a random move from the safe moves
     let nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     
@@ -142,17 +142,19 @@ if(gameState.you.health<90){
 
     console.log(`MOVE ${gameState.turn+1}: ${nextMove}`)
     return { move: nextMove};
+}
 
-    // if(gameState.turn%4==0){
-    //     return {move:"up"}
-    // }
-    // if(gameState.turn%4==1){
-    //     return {move:"right"}
-    // }
-    // if(gameState.turn%4==2){
-    //     return {move:"down"}
-    // }
-    // if(gameState.turn%4==3){
-    //     return {move:"left"}
-    // }
+function chaseTail(){
+    if(gameState.turn%4==0){
+        return {move:"up"}
+    }
+    if(gameState.turn%4==1){
+        return {move:"right"}
+    }
+    if(gameState.turn%4==2){
+        return {move:"down"}
+    }
+    if(gameState.turn%4==3){
+        return {move:"left"}
+    }
 }
