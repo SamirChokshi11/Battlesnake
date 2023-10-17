@@ -93,6 +93,10 @@ export default function move(gameState){
     // Choose a random move from the safe moves
     let nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     
+    if(moveSafety.up==true){
+        //checkSafety(myHead.x,myHead.y+1)
+    }
+
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
 
@@ -106,24 +110,24 @@ export default function move(gameState){
     
     let targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
 
-    const deltaX = targetPoint.x - myHead.x
-    const deltaY = targetPoint.y - myHead.y
+    let deltaX = targetPoint.x - myHead.x
+    let deltaY = targetPoint.y - myHead.y
   
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
-        if(moveSafety.right==true){nextMove= 'right'}
+        if(moveSafety.right==true){nextMove='right'}
       } else if (deltaX < 0) {
-        if(moveSafety.left==true){ nextMove= 'left'}
+        if(moveSafety.left==true){ nextMove='left'}
       }
     } else {
       if (deltaY > 0) {
-        if(moveSafety.down==true){nextMove= 'down'}
+        if(moveSafety.down==true){nextMove='down'}
       } else if (deltaY < 0) {
-        if(moveSafety.up==true){nextMove= 'up'}
+        if(moveSafety.up==true){nextMove='up'}
       }
     }
 
-if(gameState.you.health<90){
+if(gameState.you.health<101){
     for (let i = 0; i < gameState.board.food.length; i++) {
         if(gameState.board.food[i].x==myHead.x+1){
             if(moveSafety.right==true&&gameState.board.food[i].y==myHead.y){nextMove='right'}
@@ -156,5 +160,54 @@ function chaseTail(){
     }
     if(gameState.turn%4==3){
         return {move:"left"}
+    }
+}
+
+function checkSafety(xPos,yPos){
+    let moveSafety=true
+    if(yPos==height-1){
+        moveSafety=false
+    }
+    if(yPos==0){
+        moveSafety=false
+    }
+    if(xPos==0){
+        moveSafety=false
+    }
+    if(xPos==width-1){
+        moveSafety=false
+    }
+    
+    for (let i = 0; i < gameState.you.body.length; i++) {
+        if(gameState.you.body[i].y==yPos+1){
+            if(gameState.you.body[i].x==xPos){moveSafety=false}
+        }
+        if(gameState.you.body[i].y==yPos-1){
+            if(gameState.you.body[i].x==xPos){moveSafety=false}
+        }
+        if(gameState.you.body[i].x==xPos-1){
+            if(gameState.you.body[i].y==yPos){moveSafety=false}
+        }
+        if(gameState.you.body[i].x==xPos+1){
+            if(gameState.you.body[i].y==yPos){moveSafety=false}
+        }
+    }
+    
+    for (let i = 0; i < gameState.board.snakes.length; i++) {
+    for (let j = 0; j < gameState.board.snakes[i].body.length; j++) {
+        if(gameState.board.snakes[i].body[j].x==xPos){
+            if(yPos+1==gameState.board.snakes[i].body[j].y){moveSafety=false}
+        }
+        if(gameState.board.snakes[i].body[j].x==xPos){
+            if(yPos-1==gameState.board.snakes[i].body[j].y){moveSafety=false}
+        }
+        if(gameState.board.snakes[i].body[j].y==yPos){
+            if(xPos-1==gameState.board.snakes[i].body[j].x){moveSafety=false}
+        }
+        if(gameState.board.snakes[i].body[j].y==yPos){
+            if(xPos+1==gameState.board.snakes[i].body[j].x){moveSafety=false}
+        }
+    }
+    return moveSafety
     }
 }
