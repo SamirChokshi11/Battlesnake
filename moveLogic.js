@@ -92,9 +92,35 @@ export default function move(gameState){
 
     // Choose a random move from the safe moves
     let nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-    
+
+    let futureMoveSafety={
+        up: moveSafety.up,
+        down: moveSafety.down,
+        left: moveSafety.left,
+        right: moveSafety.right
+    }
+
     if(moveSafety.up==true){
-        //checkSafety(myHead.x,myHead.y+1)
+        if(checkSafety(myHead.x,myHead.y+1)==false){futureMoveSafety.up=false}
+    }
+    if(moveSafety.down==true){
+        if(checkSafety(myHead.x,myHead.y-1)==false){futureMoveSafety.down=false}
+    }
+    if(moveSafety.right==true){
+        if(checkSafety(myHead.x+1,myHead.y)==false){futureMoveSafety.right=false}
+    }
+    if(moveSafety.left==true){
+        if(checkSafety(myHead.x-1,myHead.y)==false){futureMoveSafety.down=false}
+    }
+
+    let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
+
+    if(futureSafeMoves.length==0){
+        nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    }else{
+        console.log(safeMoves)
+        console.log(futureSafeMoves)
+        nextMove = futureSafeMoves[Math.floor(Math.random() * futureSafeMoves.length)];
     }
 
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
@@ -113,19 +139,19 @@ export default function move(gameState){
     let deltaX = targetPoint.x - myHead.x
     let deltaY = targetPoint.y - myHead.y
   
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0) {
-        if(moveSafety.right==true){nextMove='right'}
-      } else if (deltaX < 0) {
-        if(moveSafety.left==true){ nextMove='left'}
-      }
-    } else {
-      if (deltaY > 0) {
-        if(moveSafety.down==true){nextMove='down'}
-      } else if (deltaY < 0) {
-        if(moveSafety.up==true){nextMove='up'}
-      }
-    }
+    // if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    //   if (deltaX > 0) {
+    //     if(moveSafety.right==true){nextMove='right'}
+    //   } else if (deltaX < 0) {
+    //     if(moveSafety.left==true){ nextMove='left'}
+    //   }
+    // } else {
+    //   if (deltaY > 0) {
+    //     if(moveSafety.down==true){nextMove='down'}
+    //   } else if (deltaY < 0) {
+    //     if(moveSafety.up==true){nextMove='up'}
+    //   }
+    // }
 
 if(gameState.you.health<101){
     for (let i = 0; i < gameState.board.food.length; i++) {
@@ -146,7 +172,6 @@ if(gameState.you.health<101){
 
     console.log(`MOVE ${gameState.turn+1}: ${nextMove}`)
     return { move: nextMove};
-}
 
 function chaseTail(){
     if(gameState.turn%4==0){
@@ -164,50 +189,67 @@ function chaseTail(){
 }
 
 function checkSafety(xPos,yPos){
-    let moveSafety=true
+    if(xPos==0&&yPos==0){return false}
+    if(xPos==width-1&&yPos==height-1){return false}
+    if(xPos==0&&yPos==height-1){return false}
+    if(xPos==width-1&&yPos==0){return false}
+    let thisDirMoveSafety={
+        up: true,
+        down: true,
+        left: true,
+        right: true
+    }
     if(yPos==height-1){
-        moveSafety=false
+        thisDirMoveSafety.up=false
     }
     if(yPos==0){
-        moveSafety=false
+        thisDirMoveSafety.down=false
     }
     if(xPos==0){
-        moveSafety=false
+        thisDirMoveSafety.left=false
     }
     if(xPos==width-1){
-        moveSafety=false
+        thisDirMoveSafety.right=false
     }
     
     for (let i = 0; i < gameState.you.body.length; i++) {
         if(gameState.you.body[i].y==yPos+1){
-            if(gameState.you.body[i].x==xPos){moveSafety=false}
+            if(gameState.you.body[i].x==xPos){thisDirMoveSafety.up=false}
         }
         if(gameState.you.body[i].y==yPos-1){
-            if(gameState.you.body[i].x==xPos){moveSafety=false}
+            if(gameState.you.body[i].x==xPos){thisDirMoveSafety.down=false}
         }
         if(gameState.you.body[i].x==xPos-1){
-            if(gameState.you.body[i].y==yPos){moveSafety=false}
+            if(gameState.you.body[i].y==yPos){thisDirMoveSafety.left=false}
         }
         if(gameState.you.body[i].x==xPos+1){
-            if(gameState.you.body[i].y==yPos){moveSafety=false}
+            if(gameState.you.body[i].y==yPos){thisDirMoveSafety.right=false}
         }
     }
     
     for (let i = 0; i < gameState.board.snakes.length; i++) {
     for (let j = 0; j < gameState.board.snakes[i].body.length; j++) {
         if(gameState.board.snakes[i].body[j].x==xPos){
-            if(yPos+1==gameState.board.snakes[i].body[j].y){moveSafety=false}
+            if(yPos+1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.up=false}
         }
         if(gameState.board.snakes[i].body[j].x==xPos){
-            if(yPos-1==gameState.board.snakes[i].body[j].y){moveSafety=false}
+            if(yPos-1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.down=false}
         }
         if(gameState.board.snakes[i].body[j].y==yPos){
-            if(xPos-1==gameState.board.snakes[i].body[j].x){moveSafety=false}
+            if(xPos-1==gameState.board.snakes[i].body[j].x){thisDirMoveSafety.left=false}
         }
         if(gameState.board.snakes[i].body[j].y==yPos){
-            if(xPos+1==gameState.board.snakes[i].body[j].x){moveSafety=false}
+            if(xPos+1==gameState.board.snakes[i].body[j].x){thisDirMoveSafety.right=false}
         }
     }
-    return moveSafety
     }
+    let thisDirSafeMoves=Object.keys(thisDirMoveSafety).filter(direction => thisDirMoveSafety[direction])
+    if(thisDirSafeMoves.length==0){
+        return false
+    }else{
+        console.log('a')
+        console.log(thisDirSafeMoves)
+        return true
+    }
+}
 }
