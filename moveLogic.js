@@ -116,11 +116,13 @@ export default function move(gameState){
     let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
 
     if(futureSafeMoves.length==0){
-        nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-    }else{
-        console.log(safeMoves)
-        console.log(futureSafeMoves)
-        nextMove = futureSafeMoves[Math.floor(Math.random() * futureSafeMoves.length)];
+        nextMove=safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    }
+    if(futureSafeMoves.length==1){
+        nextMove=futureSafeMoves[0]
+    }
+    if(futureSafeMoves.length==2&&futureSafeMoves.length==3){
+        nextMove=futureSafeMoves[Math.floor(Math.random() * futureSafeMoves.length)];
     }
 
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
@@ -169,8 +171,9 @@ if(gameState.you.health<101){
         }
     }
 }
-
-    console.log(`MOVE ${gameState.turn+1}: ${nextMove}`)
+    console.log(safeMoves)
+    console.log(futureSafeMoves)
+    console.log(`MOVE ${gameState.turn}: ${nextMove}`)
     return { move: nextMove};
 
 function chaseTail(){
@@ -199,6 +202,19 @@ function checkSafety(xPos,yPos){
         left: true,
         right: true
     }
+    if (myNeck.x < xPos) {        // Neck is left of head, don't move left
+        thisDirMoveSafety.left = false;
+        
+    } else if (myNeck.x > xPos) { // Neck is right of head, don't move right
+        thisDirMoveSafety.right = false;
+        
+    } else if (myNeck.y < yPos) { // Neck is below head, don't move down
+        thisDirMoveSafety.down = false;
+        
+    } else if (myNeck.y > yPos) { // Neck is above head, don't move up
+        thisDirMoveSafety.up = false;
+    }
+
     if(yPos==height-1){
         thisDirMoveSafety.up=false
     }
@@ -247,8 +263,6 @@ function checkSafety(xPos,yPos){
     if(thisDirSafeMoves.length==0){
         return false
     }else{
-        console.log('a')
-        console.log(thisDirSafeMoves)
         return true
     }
 }
