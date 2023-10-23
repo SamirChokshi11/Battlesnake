@@ -110,7 +110,7 @@ export default function move(gameState){
         if(checkSafety(myHead.x+1,myHead.y)==false){futureMoveSafety.right=false}
     }
     if(moveSafety.left==true){
-        if(checkSafety(myHead.x-1,myHead.y)==false){futureMoveSafety.down=false}
+        if(checkSafety(myHead.x-1,myHead.y)==false){futureMoveSafety.left=false}
     }
 
     let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
@@ -121,7 +121,7 @@ export default function move(gameState){
     if(futureSafeMoves.length==1){
         nextMove=futureSafeMoves[0]
     }
-    if(futureSafeMoves.length==2&&futureSafeMoves.length==3){
+    if(futureSafeMoves.length==2||futureSafeMoves.length==3){
         nextMove=futureSafeMoves[Math.floor(Math.random() * futureSafeMoves.length)];
     }
 
