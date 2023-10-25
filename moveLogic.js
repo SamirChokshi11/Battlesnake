@@ -137,21 +137,21 @@ export default function move(gameState){
     }
     
     let targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
-
+  
     let deltaX = targetPoint.x - myHead.x
     let deltaY = targetPoint.y - myHead.y
   
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
-        if(futureMoveSafety.right==true){nextMove='right'}
+        if(futureMoveSafety.right==true){console.log('food right');nextMove='right'}
       } else if (deltaX < 0) {
-        if(futureMoveSafety.left==true){ nextMove='left'}
+        if(futureMoveSafety.left==true){console.log('food left');nextMove='left'}
       }
     } else {
-      if (deltaY > 0) {
-        if(futureMoveSafety.down==true){nextMove='down'}
-      } else if (deltaY < 0) {
-        if(futureMoveSafety.up==true){nextMove='up'}
+      if (deltaY < 0) {
+        if(futureMoveSafety.down==true){console.log('food down');nextMove='down'}
+      } else if (deltaY > 0) {
+        if(futureMoveSafety.up==true){console.log('food up');nextMove='up'}
       }
     }
 
