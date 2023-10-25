@@ -12,18 +12,18 @@ export default function move(gameState){
     const myHead = gameState.you.body[0];
     const myNeck = gameState.you.body[1];
     
-    // if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
-    //     moveSafety.left = false;
+    if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
+        moveSafety.left = false;
         
-    // } else if (myNeck.x > myHead.x) { // Neck is right of head, don't move right
-    //     moveSafety.right = false;
+    } else if (myNeck.x > myHead.x) { // Neck is right of head, don't move right
+        moveSafety.right = false;
         
-    // } else if (myNeck.y < myHead.y) { // Neck is below head, don't move down
-    //     moveSafety.down = false;
+    } else if (myNeck.y < myHead.y) { // Neck is below head, don't move down
+        moveSafety.down = false;
         
-    // } else if (myNeck.y > myHead.y) { // Neck is above head, don't move up
-    //     moveSafety.up = false;
-    // }
+    } else if (myNeck.y > myHead.y) { // Neck is above head, don't move up
+        moveSafety.up = false;
+    }
     
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
@@ -141,19 +141,19 @@ export default function move(gameState){
     let deltaX = targetPoint.x - myHead.x
     let deltaY = targetPoint.y - myHead.y
   
-    // if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    //   if (deltaX > 0) {
-    //     if(moveSafety.right==true){nextMove='right'}
-    //   } else if (deltaX < 0) {
-    //     if(moveSafety.left==true){ nextMove='left'}
-    //   }
-    // } else {
-    //   if (deltaY > 0) {
-    //     if(moveSafety.down==true){nextMove='down'}
-    //   } else if (deltaY < 0) {
-    //     if(moveSafety.up==true){nextMove='up'}
-    //   }
-    // }
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0) {
+        if(futureMoveSafety.right==true){nextMove='right'}
+      } else if (deltaX < 0) {
+        if(futureMoveSafety.left==true){ nextMove='left'}
+      }
+    } else {
+      if (deltaY > 0) {
+        if(futureMoveSafety.down==true){nextMove='down'}
+      } else if (deltaY < 0) {
+        if(futureMoveSafety.up==true){nextMove='up'}
+      }
+    }
 
 if(gameState.you.health<101){
     for (let i = 0; i < gameState.board.food.length; i++) {
@@ -202,16 +202,16 @@ function checkSafety(xPos,yPos){
         left: true,
         right: true
     }
-    if (myNeck.x < xPos) {        // Neck is left of head, don't move left
+    if (myNeck.x==xPos-1) {        // Neck is left of head, don't move left
         thisDirMoveSafety.left = false;
         
-    } else if (myNeck.x > xPos) { // Neck is right of head, don't move right
+    } else if (myNeck.x==xPos+1) { // Neck is right of head, don't move right
         thisDirMoveSafety.right = false;
         
-    } else if (myNeck.y < yPos) { // Neck is below head, don't move down
+    } else if (myNeck.y==yPos-1) { // Neck is below head, don't move down
         thisDirMoveSafety.down = false;
         
-    } else if (myNeck.y > yPos) { // Neck is above head, don't move up
+    } else if (myNeck.y==yPos+1) { // Neck is above head, don't move up
         thisDirMoveSafety.up = false;
     }
 
