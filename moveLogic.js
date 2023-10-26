@@ -45,7 +45,7 @@ export default function move(gameState){
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
 
-    for (let i = 0; i < gameState.you.body.length; i++) {
+    for (let i = 0; i < gameState.you.body.length-1; i++) {
         if(gameState.you.body[i].y==myHead.y+1){
             if(gameState.you.body[i].x==myHead.x){moveSafety.up=false}
         }
@@ -64,7 +64,7 @@ export default function move(gameState){
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
    for (let i = 0; i < gameState.board.snakes.length; i++) {
-    for (let j = 0; j < gameState.board.snakes[i].body.length; j++) {
+    for (let j = 0; j < gameState.board.snakes[i].body.length-1; j++) {
         if(gameState.board.snakes[i].body[j].x==myHead.x){
             if(myHead.y+1==gameState.board.snakes[i].body[j].y){moveSafety.up=false}
         }
@@ -140,7 +140,7 @@ export default function move(gameState){
   
     let deltaX = targetPoint.x - myHead.x
     let deltaY = targetPoint.y - myHead.y
-  
+if(Math.floor(height/2)!=targetPoint.y&&Math.floor(width/2)!=targetPoint.x){
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
         if(futureMoveSafety.right==true){console.log('food right');nextMove='right'}
@@ -170,6 +170,7 @@ if(gameState.you.health<101){
             if(moveSafety.down==true&&gameState.board.food[i].x==myHead.x){nextMove='down'}
         }
     }
+}
 }
     console.log(safeMoves)
     console.log(futureSafeMoves)
@@ -228,7 +229,7 @@ function checkSafety(xPos,yPos){
         thisDirMoveSafety.right=false
     }
     
-    for (let i = 0; i < gameState.you.body.length; i++) {
+    for (let i = 0; i < gameState.you.body.length-1; i++) {
         if(gameState.you.body[i].y==yPos+1){
             if(gameState.you.body[i].x==xPos){thisDirMoveSafety.up=false}
         }
@@ -244,7 +245,7 @@ function checkSafety(xPos,yPos){
     }
     
     for (let i = 0; i < gameState.board.snakes.length; i++) {
-    for (let j = 0; j < gameState.board.snakes[i].body.length; j++) {
+    for (let j = 0; j < gameState.board.snakes[i].body.length-1; j++) {
         if(gameState.board.snakes[i].body[j].x==xPos){
             if(yPos+1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.up=false}
         }
