@@ -165,7 +165,7 @@ export default function move(gameState){
     
     let deltaX = targetPoint.x - myHead.x
     let deltaY = targetPoint.y - myHead.y
-if(Math.floor(height/2)!=targetPoint.y&&Math.floor(width/2)!=targetPoint.x){
+  
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
         if(futureMoveSafety.right==true){nextMove='right'}
@@ -195,7 +195,6 @@ if(gameState.you.health<101){
             if(moveSafety.down==true&&gameState.board.food[i].x==myHead.x){nextMove='down'}
         }
     }
-}
 }
     console.log(safeMoves)
     console.log(futureSafeMoves)
