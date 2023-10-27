@@ -41,6 +41,7 @@ export default function move(gameState){
     if(myHead.x==width-1){
         moveSafety.right=false
     }
+    
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
@@ -137,34 +138,26 @@ export default function move(gameState){
     }
 
     let targetPoint={x:null,y:null}
-    let snakeBodyLengths=[gameState.you.length]
-
-    for (let i = 1; i < gameState.board.snakes.length; i++) {
+    let snakeBodyLengths=[]
+    for (let i = 0; i < gameState.board.snakes.length; i++) {
         snakeBodyLengths.push(gameState.board.snakes[i].length)
     }
-
     let biggestSnake={value:Math.max(...snakeBodyLengths),index:null}
     biggestSnake.index=snakeBodyLengths.indexOf(biggestSnake.value)
-    console.log(Math.max(...snakeBodyLengths))
     snakeBodyLengths.splice(biggestSnake.index,1)
-    console.log(Math.max(...snakeBodyLengths))
 
-    if(Math.max(...snakeBodyLengths)!=biggestSnake.value&&biggestSnake.index==0){
-        if(gameState.board.snakes.length>1){
+    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)!=biggestSnake.value&&biggestSnake.index==0){
             targetPoint.x=gameState.board.snakes[1].head.x
             targetPoint.y=gameState.board.snakes[1].head.y
-        }
     }else{
         // if(gameState.board.food[smallestDistance.index].x!=Math.floor(width/2) && gameState.board.food[smallestDistance.index].y!=Math.floor(height/2)){
             targetPoint.x=gameState.board.food[smallestDistance.index].x
             targetPoint.y=gameState.board.food[smallestDistance.index].y
         // }
     }
-
-    console.log(targetPoint)
     
-    let deltaX = targetPoint.x - myHead.x
-    let deltaY = targetPoint.y - myHead.y
+    let deltaX=targetPoint.x-myHead.x
+    let deltaY=targetPoint.y-myHead.y
   
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
@@ -196,95 +189,94 @@ if(gameState.you.health<101){
         }
     }
 }
-    console.log(safeMoves)
-    console.log(futureSafeMoves)
+
     console.log(`MOVE ${gameState.turn}: ${nextMove}`)
     return { move: nextMove};
 
-function chaseTail(){
-    if(gameState.turn%4==0){
-        return {move:"up"}
-    }
-    if(gameState.turn%4==1){
-        return {move:"right"}
-    }
-    if(gameState.turn%4==2){
-        return {move:"down"}
-    }
-    if(gameState.turn%4==3){
-        return {move:"left"}
-    }
-}
-
-function checkSafety(xPos,yPos){
-    let thisDirMoveSafety={
-        up: true,
-        down: true,
-        left: true,
-        right: true
-    }
-    if (myNeck.x==xPos-1&&myNeck.y==yPos) {        // Neck is left of head, don't move left
-        thisDirMoveSafety.left = false;
-        
-    } else if (myNeck.x==xPos+1&&myNeck.y==yPos) { // Neck is right of head, don't move right
-        thisDirMoveSafety.right = false;
-        
-    } else if (myNeck.y==yPos-1&&myNeck.x==xPos) { // Neck is below head, don't move down
-        thisDirMoveSafety.down = false;
-        
-    } else if (myNeck.y==yPos+1&&myNeck.x==xPos) { // Neck is above head, don't move up
-        thisDirMoveSafety.up = false;
+    function chaseTail(){
+        if(gameState.turn%4==0){
+            return {move:"up"}
+        }
+        if(gameState.turn%4==1){
+            return {move:"right"}
+        }
+        if(gameState.turn%4==2){
+            return {move:"down"}
+        }
+        if(gameState.turn%4==3){
+            return {move:"left"}
+        }
     }
 
-    if(yPos==height-1){
-        thisDirMoveSafety.up=false
-    }
-    if(yPos==0){
-        thisDirMoveSafety.down=false
-    }
-    if(xPos==0){
-        thisDirMoveSafety.left=false
-    }
-    if(xPos==width-1){
-        thisDirMoveSafety.right=false
-    }
-    
-    for (let i = 0; i < gameState.you.body.length-1; i++) {
-        if(gameState.you.body[i].y==yPos+1){
-            if(gameState.you.body[i].x==xPos){thisDirMoveSafety.up=false}
+    function checkSafety(xPos,yPos){
+        let thisDirMoveSafety={
+            up: true,
+            down: true,
+            left: true,
+            right: true
         }
-        if(gameState.you.body[i].y==yPos-1){
-            if(gameState.you.body[i].x==xPos){thisDirMoveSafety.down=false}
+        if (myNeck.x==xPos-1&&myNeck.y==yPos) {
+            thisDirMoveSafety.left = false;
+            
+        } else if (myNeck.x==xPos+1&&myNeck.y==yPos) {
+            thisDirMoveSafety.right = false;
+            
+        } else if (myNeck.y==yPos-1&&myNeck.x==xPos) {
+            thisDirMoveSafety.down = false;
+            
+        } else if (myNeck.y==yPos+1&&myNeck.x==xPos) {
+            thisDirMoveSafety.up = false;
         }
-        if(gameState.you.body[i].x==xPos-1){
-            if(gameState.you.body[i].y==yPos){thisDirMoveSafety.left=false}
+
+        if(yPos==height-1){
+            thisDirMoveSafety.up=false
         }
-        if(gameState.you.body[i].x==xPos+1){
-            if(gameState.you.body[i].y==yPos){thisDirMoveSafety.right=false}
+        if(yPos==0){
+            thisDirMoveSafety.down=false
+        }
+        if(xPos==0){
+            thisDirMoveSafety.left=false
+        }
+        if(xPos==width-1){
+            thisDirMoveSafety.right=false
+        }
+        
+        for (let i = 0; i < gameState.you.body.length-1; i++) {
+            if(gameState.you.body[i].y==yPos+1){
+                if(gameState.you.body[i].x==xPos){thisDirMoveSafety.up=false}
+            }
+            if(gameState.you.body[i].y==yPos-1){
+                if(gameState.you.body[i].x==xPos){thisDirMoveSafety.down=false}
+            }
+            if(gameState.you.body[i].x==xPos-1){
+                if(gameState.you.body[i].y==yPos){thisDirMoveSafety.left=false}
+            }
+            if(gameState.you.body[i].x==xPos+1){
+                if(gameState.you.body[i].y==yPos){thisDirMoveSafety.right=false}
+            }
+        }
+        
+        for (let i = 0; i < gameState.board.snakes.length; i++) {
+            for (let j = 0; j < gameState.board.snakes[i].body.length-1; j++) {
+                if(gameState.board.snakes[i].body[j].x==xPos){
+                    if(yPos+1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.up=false}
+                }
+                if(gameState.board.snakes[i].body[j].x==xPos){
+                    if(yPos-1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.down=false}
+                }
+                if(gameState.board.snakes[i].body[j].y==yPos){
+                    if(xPos-1==gameState.board.snakes[i].body[j].x){thisDirMoveSafety.left=false}
+                }
+                if(gameState.board.snakes[i].body[j].y==yPos){
+                    if(xPos+1==gameState.board.snakes[i].body[j].x){thisDirMoveSafety.right=false}
+                }
+            }
+        }
+        let thisDirSafeMoves=Object.keys(thisDirMoveSafety).filter(direction => thisDirMoveSafety[direction])
+        if(thisDirSafeMoves.length==0){
+            return false
+        }else{
+            return true
         }
     }
-    
-    for (let i = 0; i < gameState.board.snakes.length; i++) {
-    for (let j = 0; j < gameState.board.snakes[i].body.length-1; j++) {
-        if(gameState.board.snakes[i].body[j].x==xPos){
-            if(yPos+1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.up=false}
-        }
-        if(gameState.board.snakes[i].body[j].x==xPos){
-            if(yPos-1==gameState.board.snakes[i].body[j].y){thisDirMoveSafety.down=false}
-        }
-        if(gameState.board.snakes[i].body[j].y==yPos){
-            if(xPos-1==gameState.board.snakes[i].body[j].x){thisDirMoveSafety.left=false}
-        }
-        if(gameState.board.snakes[i].body[j].y==yPos){
-            if(xPos+1==gameState.board.snakes[i].body[j].x){thisDirMoveSafety.right=false}
-        }
-    }
-    }
-    let thisDirSafeMoves=Object.keys(thisDirMoveSafety).filter(direction => thisDirMoveSafety[direction])
-    if(thisDirSafeMoves.length==0){
-        return false
-    }else{
-        return true
-    }
-}
 }
