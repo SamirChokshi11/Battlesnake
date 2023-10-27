@@ -150,7 +150,7 @@ export default function move(gameState){
             targetPoint.x=gameState.board.snakes[1].head.x
             targetPoint.y=gameState.board.snakes[1].head.y
     }else{
-        // if(gameState.board.food[smallestDistance.index].x!=Math.floor(width/2) && gameState.board.food[smallestDistance.index].y!=Math.floor(height/2)){
+        // if(gameState.board.food[smallestDistance.index].x!=Math.floor(width/2)&&gameState.board.food[smallestDistance.index].y!=Math.floor(height/2)){
             targetPoint.x=gameState.board.food[smallestDistance.index].x
             targetPoint.y=gameState.board.food[smallestDistance.index].y
         // }
@@ -159,16 +159,16 @@ export default function move(gameState){
     let deltaX=targetPoint.x-myHead.x
     let deltaY=targetPoint.y-myHead.y
   
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0) {
+    if (Math.abs(deltaX)>Math.abs(deltaY)) {
+      if (deltaX>0){
         if(futureMoveSafety.right==true){nextMove='right'}
-      } else if (deltaX < 0) {
+      }else if(deltaX<0){
         if(futureMoveSafety.left==true){nextMove='left'}
       }
-    } else {
-      if (deltaY < 0) {
+    }else{
+      if(deltaY<0){
         if(futureMoveSafety.down==true){nextMove='down'}
-      } else if (deltaY > 0) {
+      }else if(deltaY>0){
         if(futureMoveSafety.up==true){nextMove='up'}
       }
     }
