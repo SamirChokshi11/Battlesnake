@@ -135,23 +135,48 @@ export default function move(gameState){
             smallestDistance.index=i
         }
     }
+
+    let targetPoint={x:null,y:null}
+    let snakeBodyLengths=[gameState.you.length]
+
+    for (let i = 1; i < gameState.board.snakes.length; i++) {
+        snakeBodyLengths.push(gameState.board.snakes[i].length)
+    }
+
+    let biggestSnake={value:Math.max(...snakeBodyLengths),index:null}
+    biggestSnake.index=snakeBodyLengths.indexOf(biggestSnake.value)
+    console.log(Math.max(...snakeBodyLengths))
+    snakeBodyLengths.splice(biggestSnake.index,1)
+    console.log(Math.max(...snakeBodyLengths))
+
+    if(Math.max(...snakeBodyLengths)!=biggestSnake.value&&biggestSnake.index==0){
+        if(gameState.board.snakes.length>1){
+            targetPoint.x=gameState.board.snakes[1].head.x
+            targetPoint.y=gameState.board.snakes[1].head.y
+        }
+    }else{
+        // if(gameState.board.food[smallestDistance.index].x!=Math.floor(width/2) && gameState.board.food[smallestDistance.index].y!=Math.floor(height/2)){
+            targetPoint.x=gameState.board.food[smallestDistance.index].x
+            targetPoint.y=gameState.board.food[smallestDistance.index].y
+        // }
+    }
+
+    console.log(targetPoint)
     
-    let targetPoint={x:gameState.board.food[smallestDistance.index].x,y:gameState.board.food[smallestDistance.index].y}
-  
     let deltaX = targetPoint.x - myHead.x
     let deltaY = targetPoint.y - myHead.y
 if(Math.floor(height/2)!=targetPoint.y&&Math.floor(width/2)!=targetPoint.x){
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
-        if(futureMoveSafety.right==true){console.log('food right');nextMove='right'}
+        if(futureMoveSafety.right==true){nextMove='right'}
       } else if (deltaX < 0) {
-        if(futureMoveSafety.left==true){console.log('food left');nextMove='left'}
+        if(futureMoveSafety.left==true){nextMove='left'}
       }
     } else {
       if (deltaY < 0) {
-        if(futureMoveSafety.down==true){console.log('food down');nextMove='down'}
+        if(futureMoveSafety.down==true){nextMove='down'}
       } else if (deltaY > 0) {
-        if(futureMoveSafety.up==true){console.log('food up');nextMove='up'}
+        if(futureMoveSafety.up==true){nextMove='up'}
       }
     }
 
@@ -193,26 +218,22 @@ function chaseTail(){
 }
 
 function checkSafety(xPos,yPos){
-    if(xPos==0&&yPos==0){return false}
-    if(xPos==width-1&&yPos==height-1){return false}
-    if(xPos==0&&yPos==height-1){return false}
-    if(xPos==width-1&&yPos==0){return false}
     let thisDirMoveSafety={
         up: true,
         down: true,
         left: true,
         right: true
     }
-    if (myNeck.x==xPos-1) {        // Neck is left of head, don't move left
+    if (myNeck.x==xPos-1&&myNeck.y==yPos) {        // Neck is left of head, don't move left
         thisDirMoveSafety.left = false;
         
-    } else if (myNeck.x==xPos+1) { // Neck is right of head, don't move right
+    } else if (myNeck.x==xPos+1&&myNeck.y==yPos) { // Neck is right of head, don't move right
         thisDirMoveSafety.right = false;
         
-    } else if (myNeck.y==yPos-1) { // Neck is below head, don't move down
+    } else if (myNeck.y==yPos-1&&myNeck.x==xPos) { // Neck is below head, don't move down
         thisDirMoveSafety.down = false;
         
-    } else if (myNeck.y==yPos+1) { // Neck is above head, don't move up
+    } else if (myNeck.y==yPos+1&&myNeck.x==xPos) { // Neck is above head, don't move up
         thisDirMoveSafety.up = false;
     }
 
