@@ -148,7 +148,7 @@ export default function move(gameState){
     if(killMode==false){
         let snakeHeads=[]
         for (let i = 1; i < gameState.board.snakes.length; i++) {
-            if(gameState.board.snakes[i].length>gameState.you.length)snakeHeads.push({x:gameState.board.snakes[i].head.x,y:gameState.board.snakes[i].head.y})
+            if(gameState.board.snakes[i].length>=gameState.you.length)snakeHeads.push({x:gameState.board.snakes[i].head.x,y:gameState.board.snakes[i].head.y})
         }
 
         
