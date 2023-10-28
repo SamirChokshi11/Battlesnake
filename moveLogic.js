@@ -222,7 +222,7 @@ let safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction
     }  
 let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
 let potSafeMoves=Object.keys(potMoveSafety).filter(direction => potMoveSafety[direction])
-console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);console.log(potSafeMoves);
+console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);console.log(potSafeMoves);if(killMode){console.log('KILL!')}
 if(nextMove==null){
     if(potSafeMoves.length!=0){nextMove=potSafeMoves[Math.floor(Math.random() * potSafeMoves.length)]}
     else if(futureSafeMoves.length!=0){nextMove=futureSafeMoves[Math.floor(Math.random() * futureSafeMoves.length)]}
