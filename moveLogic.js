@@ -121,17 +121,14 @@ export default function move(gameState){
     let killMode=false
 
     if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length){
-            killMode=true
-            targetPoint.x=snakeArray[closestSnake.index].head.x
-            targetPoint.y=snakeArray[closestSnake.index].head.y
+        killMode=true
+        targetPoint.x=snakeArray[closestSnake.index].head.x
+        targetPoint.y=snakeArray[closestSnake.index].head.y
     }else{
-            targetPoint.x=gameState.board.food[smallestDistance.index].x
-            targetPoint.y=gameState.board.food[smallestDistance.index].y
+        targetPoint.x=gameState.board.food[smallestDistance.index].x
+        targetPoint.y=gameState.board.food[smallestDistance.index].y
     }
 
-    let deltaX=targetPoint.x-myHead.x
-    let deltaY=targetPoint.y-myHead.y
-    
     let futureMoveSafety={
         up: moveSafety.up,
         down: moveSafety.down,
@@ -158,7 +155,7 @@ export default function move(gameState){
         left: futureMoveSafety.left,
         right: futureMoveSafety.right
     }
-
+    
     if(!killMode){
         let snakeHeads=[]
         for (let i = 0; i < snakeArray.length; i++) {
@@ -166,7 +163,6 @@ export default function move(gameState){
                 snakeHeads.push({x:snakeArray[i].head.x,y:snakeArray[i].head.y})
             }
         }
-
         if(futureMoveSafety.up){
             for (let i = 0; i < snakeHeads.length; i++) {
                 if(snakeHeads[i].y+1==myHead.y+1&&snakeHeads[i].x==myHead.x){potMoveSafety.up=false}
@@ -200,9 +196,12 @@ export default function move(gameState){
             }
         }
     }
+    
+    let deltaX=targetPoint.x-myHead.x
+    let deltaY=targetPoint.y-myHead.y
 
     if (Math.abs(deltaX)>Math.abs(deltaY)) {
-      if (deltaX>0){
+        if (deltaX>0){
         if(potMoveSafety.right){nextMove='right'}
       }else if(deltaX<0){
         if(potMoveSafety.left){nextMove='left'}
@@ -232,15 +231,14 @@ export default function move(gameState){
         }
     }
 
-
     let safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
-        if (safeMoves.length == 0) {
-            console.log(`MOVE ${gameState.turn}: No safe moves detected!`);
-        }  
-    let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
-    let potSafeMoves=Object.keys(potMoveSafety).filter(direction => potMoveSafety[direction])
+    if (safeMoves.length == 0) {
+        console.log(`MOVE ${gameState.turn}: No safe moves detected!`);
+    }  
+    let futureSafeMoves = Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
+    let potSafeMoves = Object.keys(potMoveSafety).filter(direction => potMoveSafety[direction])
 
-    console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);console.log(potSafeMoves);console.log(targetPoint);if(killMode){console.log('KILL!')}
+    console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);console.log(potSafeMoves);console.log(targetPoint);if(killMode){console.log('KILL MODE ACTIVATED')}
 
     if(nextMove==null){
         if(potSafeMoves.length!=0){nextMove=potSafeMoves[Math.floor(Math.random() * potSafeMoves.length)]}
