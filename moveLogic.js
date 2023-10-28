@@ -7,6 +7,7 @@ export default function move(gameState){
     };
     
     // We've included code to prevent your Battlesnake from moving backwards
+
     const height=gameState.board.height
     const width=gameState.board.width
     const myHead = gameState.you.body[0];
@@ -109,10 +110,8 @@ export default function move(gameState){
             targetPoint.x=gameState.board.snakes[1].head.x
             targetPoint.y=gameState.board.snakes[1].head.y
     }else{
-        // if(gameState.board.food[smallestDistance.index].x!=Math.floor(width/2)&&gameState.board.food[smallestDistance.index].y!=Math.floor(height/2)){
             targetPoint.x=gameState.board.food[smallestDistance.index].x
             targetPoint.y=gameState.board.food[smallestDistance.index].y
-        // }
     }
     
     let deltaX=targetPoint.x-myHead.x
@@ -148,9 +147,8 @@ export default function move(gameState){
     if(killMode==false){
         let snakeHeads=[]
         for (let i = 1; i < gameState.board.snakes.length; i++) {
-            if(gameState.board.snakes[i].length>=gameState.you.length)snakeHeads.push({x:gameState.board.snakes[i].head.x,y:gameState.board.snakes[i].head.y})
+            if(gameState.board.snakes[i].length>=gameState.you.length){snakeHeads.push({x:gameState.board.snakes[i].head.x,y:gameState.board.snakes[i].head.y})}
         }
-
         
         if(futureMoveSafety.up==true){
             for (let i = 0; i < snakeHeads.length; i++) {
