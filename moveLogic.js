@@ -86,7 +86,11 @@ export default function move(gameState){
 
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
-
+    
+    let snakeArray=[]
+    for (let i = 0; i < gameState.board.snakes.length; i++) {
+        if(isMe(gameState.board.snakes[i])==false){snakeArray.push(gameState.board.snakes[i])}
+    }
     let smallestDistance={value:Math.sqrt((myHead.x-gameState.board.food[0].x)**2+(myHead.y-gameState.board.food[0].y)**2),index:0}
     for (let i = 0; i < gameState.board.food.length; i++) {
         if(Math.sqrt((myHead.x-gameState.board.food[i].x)**2+(myHead.y-gameState.board.food[i].y)**2)<smallestDistance.value){
@@ -95,25 +99,35 @@ export default function move(gameState){
         }
     }
 
-    let targetPoint={x:null,y:null}
-    let snakeBodyLengths=[]
-    let killMode=false
-    for (let i = 0; i < gameState.board.snakes.length; i++) {
-        snakeBodyLengths.push(gameState.board.snakes[i].length)
+    let closestSnake={value:null,index:null}
+    if(snakeArray.length>0){
+        closestSnake={value:Math.sqrt((snakeArray[0].x-myHead.x)**2+(snakeArray[0].y-myHead.y)**2),index:[0]}
+        for (let i = 0; i < snakeArray.length; i++) {
+            if(Math.sqrt((snakeArray[i].x-myHead.x)**2+(snakeArray[i].y-myHead.y)**2)<closestSnake.value){
+                closestSnake.value=Math.sqrt((snakeArray[i].x-myHead.x)**2+(snakeArray[i].y-myHead.y)**2)
+                closestSnake.index=i
+            }
+        }
     }
-    let biggestSnake={value:Math.max(...snakeBodyLengths),index:null}
-    biggestSnake.index=snakeBodyLengths.indexOf(biggestSnake.value)
-    snakeBodyLengths.splice(biggestSnake.index,1)
 
-    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)!=biggestSnake.value&&biggestSnake.index==0){
+
+    let snakeBodyLengths=[]
+    for (let i = 0; i < snakeArray.length; i++) {
+        snakeBodyLengths.push(snakeArray[i].length)
+    }
+
+    let targetPoint={x:null,y:null}
+    let killMode=false
+
+    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length){
             killMode=true
-            targetPoint.x=gameState.board.snakes[1].head.x
-            targetPoint.y=gameState.board.snakes[1].head.y
+            targetPoint.x=snakeArray[closestSnake.index].head.x
+            targetPoint.y=snakeArray[closestSnake.index].head.y
     }else{
             targetPoint.x=gameState.board.food[smallestDistance.index].x
             targetPoint.y=gameState.board.food[smallestDistance.index].y
     }
-    
+    console.log(targetPoint)
     let deltaX=targetPoint.x-myHead.x
     let deltaY=targetPoint.y-myHead.y
     
@@ -146,10 +160,12 @@ export default function move(gameState){
 
     if(killMode==false){
         let snakeHeads=[]
-        for (let i = 1; i < gameState.board.snakes.length; i++) {
-            if(gameState.board.snakes[i].length>=gameState.you.length){snakeHeads.push({x:gameState.board.snakes[i].head.x,y:gameState.board.snakes[i].head.y})}
+        for (let i = 0; i < snakeArray.length; i++) {
+            if(snakeArray[i].length>=gameState.you.length){
+                snakeHeads.push({x:snakeArray[i].head.x,y:snakeArray[i].head.y})
+            }
         }
-        
+
         if(futureMoveSafety.up==true){
             for (let i = 0; i < snakeHeads.length; i++) {
                 if(snakeHeads[i].y+1==myHead.y+1&&snakeHeads[i].x==myHead.x){potMoveSafety.up=false}
@@ -244,6 +260,14 @@ if(nextMove==null){
         }
         if(gameState.turn%4==3){
             return {move:"left"}
+        }
+    }
+
+    function isMe(snake){
+        if(snake.head.x==myHead.x&&snake.head.y==myHead.y){
+            return true
+        }else{
+            return false
         }
     }
 
