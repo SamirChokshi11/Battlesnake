@@ -280,7 +280,7 @@ export default function move(gameState){
             nextMove=safeMoves[Math.floor(Math.random() * safeMoves.length)]
         }
     }
-    if(gameState.board.snakes.length<2&&gameState.you.health>10){
+    if(gameState.board.snakes.length<2&&gameState.you.health>10&&gameState.you.length%2==0){
         chaseTail()
     }
     console.log(`MOVE ${gameState.turn}: ${nextMove}`)
