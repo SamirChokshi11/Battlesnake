@@ -125,7 +125,7 @@ export default function move(gameState){
     }
     let targetPoint={x:null,y:null}
     let killMode=false
-    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null){
+    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null&&gameState.you.health>10){
         killMode=true
         targetPoint.x=snakeArray[closestSnake.index].head.x
         targetPoint.y=snakeArray[closestSnake.index].head.y
