@@ -276,7 +276,7 @@ export default function move(gameState){
     }
     let safeMoves=Object.keys(moveSafety).filter(direction => moveSafety[direction])
     if(safeMoves.length==0) {
-        console.log(`MOVE ${gameState.turn}: No safe moves detected!`)
+        console.log(`MOVE${gameState.turn}:No safe moves detected!`)
     }  
     let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction=>futureMoveSafety[direction])
     let potSafeMoves=Object.keys(potMoveSafety).filter(direction=>potMoveSafety[direction])
