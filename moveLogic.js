@@ -5,25 +5,19 @@ export default function move(gameState){
         left: true,
         right: true
     }
-    
     // We've included code to prevent your Battlesnake from moving backwards
-
     const height=gameState.board.height
     const width=gameState.board.width
-    const myHead = gameState.you.body[0]
-    const myNeck = gameState.you.body[1]
-    
-    if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
-        moveSafety.left = false
-        
-    } else if (myNeck.x > myHead.x) { // Neck is right of head, don't move right
-        moveSafety.right = false
-        
-    } else if (myNeck.y < myHead.y) { // Neck is below head, don't move down
-        moveSafety.down = false
-        
-    } else if (myNeck.y > myHead.y) { // Neck is above head, don't move up
-        moveSafety.up = false
+    const myHead=gameState.you.body[0]
+    const myNeck=gameState.you.body[1]
+    if(myNeck.x<myHead.x) {// Neck is left of head, don't move left
+        moveSafety.left=false
+    }else if(myNeck.x>myHead.x) {// Neck is right of head, don't move right
+        moveSafety.right=false
+    } else if(myNeck.y<myHead.y) {// Neck is below head, don't move down
+        moveSafety.down=false
+    } else if(myNeck.y>myHead.y) {// Neck is above head, don't move up
+        moveSafety.up=false
     }
     
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
@@ -126,8 +120,6 @@ export default function move(gameState){
     let targetPoint={x:null,y:null}
     let killMode=false
     console.log(onHazard(myHead.x,myHead.y))
-
-
     if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null&&gameState.you.health>10&&!onHazard(myHead.x,myHead.y)){
         killMode=true
         targetPoint.x=snakeArray[closestSnake.index].head.x
@@ -386,17 +378,16 @@ export default function move(gameState){
         }
         for (let i = 0; i < gameState.board.snakes.length; i++) {
             for (let j = 0; j < gameState.board.snakes[i].body.length-1; j++) {
-                // improve
-                if(gameState.board.snakes[i].body[j].x==xPos&&yPos+1==gameState.board.snakes[i].body[j].y){
+                if(gameState.board.snakes[i].body[j].x==xPos&&gameState.board.snakes[i].body[j].y==yPos+1){
                     thisDirMoveSafety.up=false
                 }
-                if(gameState.board.snakes[i].body[j].x==xPos&&yPos-1==gameState.board.snakes[i].body[j].y){
+                if(gameState.board.snakes[i].body[j].x==xPos&&gameState.board.snakes[i].body[j].y==yPos-1){
                     thisDirMoveSafety.down=false
                 }
-                if(gameState.board.snakes[i].body[j].y==yPos&&xPos-1==gameState.board.snakes[i].body[j].x){
+                if(gameState.board.snakes[i].body[j].y==yPos&&gameState.board.snakes[i].body[j].x==xPos-1){
                     thisDirMoveSafety.left=false
                 }
-                if(gameState.board.snakes[i].body[j].y==yPos&&xPos+1==gameState.board.snakes[i].body[j].x){
+                if(gameState.board.snakes[i].body[j].y==yPos&&gameState.board.snakes[i].body[j].x==xPos+1){
                     thisDirMoveSafety.right=false
                 }
             }
