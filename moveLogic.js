@@ -125,7 +125,10 @@ export default function move(gameState){
     }
     let targetPoint={x:null,y:null}
     let killMode=false
-    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null&&gameState.you.health>10){
+    console.log(onHazard(gameState,myHead.x,myHead.y))
+    console.log(gameState.board.hazards)
+
+    if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null&&gameState.you.health>10&&!onHazard(myHead.x,myHead.y)){
         killMode=true
         targetPoint.x=snakeArray[closestSnake.index].head.x
         targetPoint.y=snakeArray[closestSnake.index].head.y
@@ -304,6 +307,19 @@ export default function move(gameState){
             return true
         }else{
             return false
+        }
+    }
+    function onHazard(xPos,yPos){
+        if(gameState.board.hazards.length==0){
+            return false
+        }else{
+            for (let i = 0; i < gameState.board.hazards.length; i++) {
+                if(gameState.board.hazards[i].x==xPos&&gameState.board.hazards[i].y==yPos){
+                    return true
+                }else{
+                    return false
+                }
+            }
         }
     }
     function checkSafety(xPos,yPos){
