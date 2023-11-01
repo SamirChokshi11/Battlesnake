@@ -1,9 +1,9 @@
 export default function move(gameState){
     let moveSafety = {
-        up: true,
-        down: true,
-        left: true,
-        right: true
+        up:true,
+        down:true,
+        left:true,
+        right:true
     }
     // We've included code to prevent your Battlesnake from moving backwards
     const height=gameState.board.height
@@ -128,10 +128,10 @@ export default function move(gameState){
         targetPoint.y=gameState.board.food[smallestDistance.index].y
     }
     let futureMoveSafety={
-        up: moveSafety.up,
-        down: moveSafety.down,
-        left: moveSafety.left,
-        right: moveSafety.right
+        up:moveSafety.up,
+        down:moveSafety.down,
+        left:moveSafety.left,
+        right:moveSafety.right
     }
     if(moveSafety.up){
         if(!checkSafety(myHead.x,myHead.y+1)){
@@ -154,10 +154,10 @@ export default function move(gameState){
         }
     }
     let potMoveSafety={
-        up: futureMoveSafety.up,
-        down: futureMoveSafety.down,
-        left: futureMoveSafety.left,
-        right: futureMoveSafety.right
+        up:futureMoveSafety.up,
+        down:futureMoveSafety.down,
+        left:futureMoveSafety.left,
+        right:futureMoveSafety.right
     }
     if(!killMode){
         let snakeHeads=[]
@@ -226,10 +226,10 @@ export default function move(gameState){
         }
     }
     let hazardMoveSafety={
-        up: potMoveSafety.up,
-        down: potMoveSafety.down,
-        left: potMoveSafety.left,
-        right: potMoveSafety.right
+        up:potMoveSafety.up,
+        down:potMoveSafety.down,
+        left:potMoveSafety.left,
+        right:potMoveSafety.right
     }
     if(potMoveSafety.up&&onHazard(myHead.x,myHead.y+1)){
         hazardMoveSafety.up=false
@@ -274,13 +274,13 @@ export default function move(gameState){
             }
         }
     }
-    let safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction])
-    if (safeMoves.length == 0) {
+    let safeMoves=Object.keys(moveSafety).filter(direction => moveSafety[direction])
+    if(safeMoves.length==0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected!`)
     }  
-    let futureSafeMoves = Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
-    let potSafeMoves = Object.keys(potMoveSafety).filter(direction => potMoveSafety[direction])
-    let hazardSafeMoves = Object.keys(hazardMoveSafety).filter(direction => hazardMoveSafety[direction])
+    let futureSafeMoves=Object.keys(futureMoveSafety).filter(direction=>futureMoveSafety[direction])
+    let potSafeMoves=Object.keys(potMoveSafety).filter(direction=>potMoveSafety[direction])
+    let hazardSafeMoves=Object.keys(hazardMoveSafety).filter(direction=>hazardMoveSafety[direction])
     console.log('\n'+gameState.turn)
     console.log(safeMoves)
     console.log(futureSafeMoves)
@@ -288,15 +288,15 @@ export default function move(gameState){
     console.log(hazardSafeMoves)
     if(nextMove==null){
         if(hazardSafeMoves.length!=0){
-            nextMove=hazardSafeMoves[Math.floor(Math.random() * hazardSafeMoves.length)]
+            nextMove=hazardSafeMoves[Math.floor(Math.random()*hazardSafeMoves.length)]
         }else if(potSafeMoves.length!=0){
-            nextMove=potSafeMoves[Math.floor(Math.random() * potSafeMoves.length)]
+            nextMove=potSafeMoves[Math.floor(Math.random()*potSafeMoves.length)]
         }
         else if(futureSafeMoves.length!=0){
-            nextMove=futureSafeMoves[Math.floor(Math.random() * futureSafeMoves.length)]
+            nextMove=futureSafeMoves[Math.floor(Math.random()*futureSafeMoves.length)]
         }
         else{
-            nextMove=safeMoves[Math.floor(Math.random() * safeMoves.length)]
+            nextMove=safeMoves[Math.floor(Math.random()*safeMoves.length)]
         }
     }
     if(gameState.board.snakes.length<2&&gameState.you.health>10&&gameState.you.length%2==0){
@@ -326,31 +326,30 @@ export default function move(gameState){
         }
     }
     function onHazard(xPos,yPos){
-        let hazard=false
         for (let i = 0; i < gameState.board.hazards.length; i++) {
             if(gameState.board.hazards[i].x==xPos&&gameState.board.hazards[i].y==yPos){
-                hazard=true
+                return true
             }
         }
-        return hazard
+        return false
     }
     function checkSafety(xPos,yPos){
         let thisDirMoveSafety={
-            up: true,
-            down: true,
-            left: true,
-            right: true
+            up:true,
+            down:true,
+            left:true,
+            right:true
         }
-        if (myNeck.x==xPos-1&&myNeck.y==yPos) {
-            thisDirMoveSafety.left = false;
-        } else if (myNeck.x==xPos+1&&myNeck.y==yPos) {
-            thisDirMoveSafety.right = false;
+        if(myNeck.x==xPos-1&&myNeck.y==yPos) {
+            thisDirMoveSafety.left=false;
+        }else if(myNeck.x==xPos+1&&myNeck.y==yPos) {
+            thisDirMoveSafety.right=false;
             
-        } else if (myNeck.y==yPos-1&&myNeck.x==xPos) {
-            thisDirMoveSafety.down = false;
+        }else if(myNeck.y==yPos-1&&myNeck.x==xPos) {
+            thisDirMoveSafety.down=false;
             
-        } else if (myNeck.y==yPos+1&&myNeck.x==xPos) {
-            thisDirMoveSafety.up = false;
+        }else if(myNeck.y==yPos+1&&myNeck.x==xPos) {
+            thisDirMoveSafety.up=false;
         }
         if(yPos==height-1){
             thisDirMoveSafety.up=false
@@ -394,7 +393,7 @@ export default function move(gameState){
                 }
             }
         }
-        let thisDirSafeMoves = Object.keys(thisDirMoveSafety).filter(direction => thisDirMoveSafety[direction])
+        let thisDirSafeMoves=Object.keys(thisDirMoveSafety).filter(direction=>thisDirMoveSafety[direction])
         if(thisDirSafeMoves.length==0){
             return false
         }else{
