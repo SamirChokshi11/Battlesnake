@@ -293,7 +293,7 @@ export default function move(gameState){
     console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);
     console.log(potSafeMoves);console.log(hazardSafeMoves);if(killMode){console.log('KILL MODE ACTIVATED')};console.log(targetPoint)
     if(nextMove==null){
-        if(hazardSafeMoves.length=!0){
+        if(hazardSafeMoves.length!=0){
             nextMove=hazardSafeMoves[Math.floor(Math.random() * hazardSafeMoves.length)]
         }else if(potSafeMoves.length!=0){
             nextMove=potSafeMoves[Math.floor(Math.random() * potSafeMoves.length)]
@@ -386,6 +386,7 @@ export default function move(gameState){
         }
         for (let i = 0; i < gameState.board.snakes.length; i++) {
             for (let j = 0; j < gameState.board.snakes[i].body.length-1; j++) {
+                // improve
                 if(gameState.board.snakes[i].body[j].x==xPos&&yPos+1==gameState.board.snakes[i].body[j].y){
                     thisDirMoveSafety.up=false
                 }
