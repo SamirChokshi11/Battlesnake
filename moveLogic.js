@@ -125,7 +125,8 @@ export default function move(gameState){
     }
     let targetPoint={x:null,y:null}
     let killMode=false
-    console.log(onHazard(gameState,myHead.x,myHead.y))
+    console.log(onHazard(myHead.x,myHead.y))
+
 
     if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null&&gameState.you.health>10&&!onHazard(myHead.x,myHead.y)){
         killMode=true
@@ -233,18 +234,36 @@ export default function move(gameState){
             }
         }
     }
+    let hazardMoveSafety={
+        up: potMoveSafety.up,
+        down: potMoveSafety.down,
+        left: potMoveSafety.left,
+        right: potMoveSafety.right
+    }
+    if(potMoveSafety.up&&onHazard(myHead.x,myHead.y+1)){
+        hazardMoveSafety.up=false
+    }
+    if(potMoveSafety.down&&onHazard(myHead.x,myHead.y-1)){
+        hazardMoveSafety.down=false
+    }
+    if(potMoveSafety.left&&onHazard(myHead.x-1,myHead.y)){
+        hazardMoveSafety.left=false
+    }
+    if(potMoveSafety.right&&onHazard(myHead.x+1,myHead.y)){
+        hazardMoveSafety.right=false
+    }
     let deltaX=targetPoint.x-myHead.x
     let deltaY=targetPoint.y-myHead.y
     if(Math.abs(deltaX)>Math.abs(deltaY)){
-        if(deltaX>0&&potMoveSafety.right){
+        if(deltaX>0&&hazardMoveSafety.right){
             nextMove='right'
-        }else if(deltaX<0&&potMoveSafety.left){
+        }else if(deltaX<0&&hazardMoveSafety.left){
             nextMove='left'
         }
     }else{
-        if(deltaY<0&&potMoveSafety.down){
+        if(deltaY<0&&hazardMoveSafety.down){
             nextMove='down'
-        }else if(deltaY>0&&potMoveSafety.up){
+        }else if(deltaY>0&&hazardMoveSafety.up){
             nextMove='up'
         }
     }
@@ -270,9 +289,13 @@ export default function move(gameState){
     }  
     let futureSafeMoves = Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
     let potSafeMoves = Object.keys(potMoveSafety).filter(direction => potMoveSafety[direction])
-    console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);console.log(potSafeMoves);if(killMode){console.log('KILL MODE ACTIVATED')};console.log(targetPoint)
+    let hazardSafeMoves = Object.keys(hazardMoveSafety).filter(direction => hazardMoveSafety[direction])
+    console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);
+    console.log(potSafeMoves);console.log(hazardSafeMoves);if(killMode){console.log('KILL MODE ACTIVATED')};console.log(targetPoint)
     if(nextMove==null){
-        if(potSafeMoves.length!=0){
+        if(hazardSafeMoves.length=!0){
+            nextMove=hazardSafeMoves[Math.floor(Math.random() * hazardSafeMoves.length)]
+        }else if(potSafeMoves.length!=0){
             nextMove=potSafeMoves[Math.floor(Math.random() * potSafeMoves.length)]
         }
         else if(futureSafeMoves.length!=0){
@@ -312,10 +335,6 @@ export default function move(gameState){
         let hazard=false
         for (let i = 0; i < gameState.board.hazards.length; i++) {
             if(gameState.board.hazards[i].x==xPos&&gameState.board.hazards[i].y==yPos){
-                console.log(gameState.board.hazards[i].x)
-                console.log(gameState.board.hazards[i].y)
-                console.log(xPos)
-                console.log(yPos)
                 hazard=true
             }
         }
