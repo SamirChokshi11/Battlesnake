@@ -119,7 +119,6 @@ export default function move(gameState){
     }
     let targetPoint={x:null,y:null}
     let killMode=false
-    console.log(onHazard(myHead.x,myHead.y))
     if(gameState.board.snakes.length>1&&Math.max(...snakeBodyLengths)<gameState.you.length&&closestSnake.index!=null&&gameState.you.health>10&&!onHazard(myHead.x,myHead.y)){
         killMode=true
         targetPoint.x=snakeArray[closestSnake.index].head.x
@@ -282,8 +281,11 @@ export default function move(gameState){
     let futureSafeMoves = Object.keys(futureMoveSafety).filter(direction => futureMoveSafety[direction])
     let potSafeMoves = Object.keys(potMoveSafety).filter(direction => potMoveSafety[direction])
     let hazardSafeMoves = Object.keys(hazardMoveSafety).filter(direction => hazardMoveSafety[direction])
-    console.log('\n'+gameState.turn);console.log(safeMoves);console.log(futureSafeMoves);
-    console.log(potSafeMoves);console.log(hazardSafeMoves);if(killMode){console.log('KILL MODE ACTIVATED')};console.log(targetPoint)
+    console.log('\n'+gameState.turn)
+    console.log(safeMoves)
+    console.log(futureSafeMoves)
+    console.log(potSafeMoves)
+    console.log(hazardSafeMoves)
     if(nextMove==null){
         if(hazardSafeMoves.length!=0){
             nextMove=hazardSafeMoves[Math.floor(Math.random() * hazardSafeMoves.length)]
