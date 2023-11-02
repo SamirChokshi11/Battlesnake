@@ -258,7 +258,7 @@ export default function move(gameState){
             nextMove='up'
         }
     }
-    if(gameState.you.health<101){
+    if(gameState.you.health<95){
         for (let i = 0; i < gameState.board.food.length; i++) {
             if(gameState.board.food[i].x==myHead.x+1&&potMoveSafety.right&&gameState.board.food[i].y==myHead.y){
                 nextMove='right'
@@ -287,6 +287,7 @@ export default function move(gameState){
     console.log(potSafeMoves)
     console.log(hazardSafeMoves)
     if(nextMove==null){
+        console.log('random')
         if(hazardSafeMoves.length!=0){
             nextMove=hazardSafeMoves[Math.floor(Math.random()*hazardSafeMoves.length)]
         }else if(potSafeMoves.length!=0){
