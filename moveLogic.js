@@ -260,16 +260,16 @@ export default function move(gameState){
     }
     if(gameState.you.health<95){
         for (let i = 0; i < gameState.board.food.length; i++) {
-            if(gameState.board.food[i].x==myHead.x+1&&potMoveSafety.right&&gameState.board.food[i].y==myHead.y){
+            if(gameState.board.food[i].x==myHead.x+1&&hazardMoveSafety.right&&gameState.board.food[i].y==myHead.y){
                 nextMove='right'
             }
-            if(gameState.board.food[i].x==myHead.x-1&&potMoveSafety.left&&gameState.board.food[i].y==myHead.y){
+            if(gameState.board.food[i].x==myHead.x-1&&hazardMoveSafety.left&&gameState.board.food[i].y==myHead.y){
                 nextMove='left'
             }
-            if(gameState.board.food[i].y==myHead.y+1&&potMoveSafety.up&&gameState.board.food[i].x==myHead.x){
+            if(gameState.board.food[i].y==myHead.y+1&&hazardMoveSafety.up&&gameState.board.food[i].x==myHead.x){
                 nextMove='up'
             }
-            if(gameState.board.food[i].y==myHead.y-1&&potMoveSafety.down&&gameState.board.food[i].x==myHead.x){
+            if(gameState.board.food[i].y==myHead.y-1&&hazardMoveSafety.down&&gameState.board.food[i].x==myHead.x){
                 nextMove='down'
             }
         }
