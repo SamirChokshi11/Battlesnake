@@ -124,6 +124,7 @@ export default function move(gameState){
         targetPoint.x=snakeArray[closestSnake.index].head.x
         targetPoint.y=snakeArray[closestSnake.index].head.y
     }else if(smallestDistance.index!=null){
+        console.log('no food')
         targetPoint.x=gameState.board.food[smallestDistance.index].x
         targetPoint.y=gameState.board.food[smallestDistance.index].y
     }
@@ -345,10 +346,8 @@ export default function move(gameState){
             thisDirMoveSafety.left=false;
         }else if(myNeck.x==xPos+1&&myNeck.y==yPos) {
             thisDirMoveSafety.right=false;
-            
         }else if(myNeck.y==yPos-1&&myNeck.x==xPos) {
             thisDirMoveSafety.down=false;
-            
         }else if(myNeck.y==yPos+1&&myNeck.x==xPos) {
             thisDirMoveSafety.up=false;
         }
