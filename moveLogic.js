@@ -259,7 +259,7 @@ export default function move(gameState){
             nextMove='up'
         }
     }
-    if(gameState.you.health<95){
+    if(gameState.you.health<70){
         for (let i = 0; i < gameState.board.food.length; i++) {
             if(gameState.board.food[i].x==myHead.x+1&&hazardMoveSafety.right&&gameState.board.food[i].y==myHead.y){
                 nextMove='right'
@@ -283,6 +283,7 @@ export default function move(gameState){
     let potSafeMoves=Object.keys(potMoveSafety).filter(direction=>potMoveSafety[direction])
     let hazardSafeMoves=Object.keys(hazardMoveSafety).filter(direction=>hazardMoveSafety[direction])
     console.log('\n'+gameState.turn)
+    console.log(targetPoint)
     console.log(safeMoves)
     console.log(futureSafeMoves)
     console.log(potSafeMoves)
